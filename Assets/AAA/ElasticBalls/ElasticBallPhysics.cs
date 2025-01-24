@@ -1,3 +1,5 @@
+using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 
 /*
@@ -26,6 +28,7 @@ public class ElasticBallPhysics : MonoBehaviour
     private Vector3[] OriginalVertices;
     private float[] OriginalVertexDistances;
     private Vector3[] DeformedVertices;
+    private bool[] SquishedVertices;
     private float MaxDistance;
 
     void Awake()
@@ -35,6 +38,7 @@ public class ElasticBallPhysics : MonoBehaviour
         
         OriginalVertices = Mesh.vertices;
         OriginalVertexDistances = new float[OriginalVertices.Length];
+        SquishedVertices = new bool[OriginalVertices.Length];
         DeformedVertices = Mesh.vertices;
 
         MaxDistance = 0f;
@@ -52,16 +56,58 @@ public class ElasticBallPhysics : MonoBehaviour
 
     void FixedUpdate()
     {
+        double totalSquish = 0;
+        int squishCount = 0;
         var position = transform.position;
+        var raycastCommands = new NativeArray<RaycastCommand>(OriginalVertices.Length, Allocator.TempJob);
+        var resultsBuffer = new NativeArray<RaycastHit>(OriginalVertices.Length, Allocator.TempJob);
+
+        var queryParameters = QueryParameters.Default;
+
+        for (int i = 0; i < OriginalVertices.Length; i++) 
+            raycastCommands[i] = new RaycastCommand(position - OriginalVertices[i], OriginalVertices[i] * 2, queryParameters, OriginalVertexDistances[i] * 2);
+        
+        var raycastJobHandle = RaycastCommand.ScheduleBatch(raycastCommands, resultsBuffer, 1, 1, default(JobHandle));
+        
+        raycastJobHandle.Complete();
+
+        for (var i = 0; i < resultsBuffer.Length; i++)
+        {
+            var hit = resultsBuffer[i];
+    
+            // hit.collider null means there was not a hit
+            var isHit = hit.collider != null;
+            
+            SquishedVertices[i] = isHit;
+            if (isHit)
+            {
+                var hitDistance = hit.distance - OriginalVertexDistances[i] - 0.01f;
+                totalSquish += OriginalVertexDistances[i] - hitDistance;
+                squishCount++;
+                DeformedVertices[i] = (hitDistance / OriginalVertexDistances[i]) * OriginalVertices[i];
+            }
+            // Debug.DrawLine(position, position + hit.point, Color.red);
+        }
+        
+        // Apply additional squish effect
+        var totalNonSquishedCount = OriginalVertices.Length - squishCount;
+        float additionalInflate = (float)(totalSquish / totalNonSquishedCount);
         for (int i = 0; i < OriginalVertices.Length; i++)
         {
-            var isHit = Physics.Raycast(position, OriginalVertices[i], out RaycastHit hit, OriginalVertexDistances[i]);
-            var hitDistance = isHit ? hit.distance : OriginalVertexDistances[i];
-            Debug.DrawLine(position, position + hit.point, Color.red);
-            DeformedVertices[i] = (hitDistance / OriginalVertexDistances[i]) * OriginalVertices[i];
+            if (!SquishedVertices[i])
+            {
+                DeformedVertices[i] = ((additionalInflate + OriginalVertexDistances[i]) / OriginalVertexDistances[i]) * OriginalVertices[i];
+            }
         }
 
         Mesh.vertices = DeformedVertices;
+        Mesh.RecalculateBounds();
+Mesh.RecalculateNormals();
+Mesh.RecalculateTangents();
+        
+        
+        raycastCommands.Dispose();
+        resultsBuffer.Dispose();
     }
 
     void OnDrawGizmos()
@@ -72,9 +118,10 @@ public class ElasticBallPhysics : MonoBehaviour
         // Gizmos.color = Color.yellow;
         // Gizmos.DrawSphere(transform.position, MaxDistance);
         Gizmos.color = Color.green;
+        var position = transform.position;
         foreach (var vertex in DeformedVertices)
         {
-            Gizmos.DrawSphere(vertex, 0.01f);
+            Gizmos.DrawSphere(vertex + position, 0.01f);
         }
     }
 }
