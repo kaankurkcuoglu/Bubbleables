@@ -1,4 +1,4 @@
-Shader "BubbleHighQuality"
+Shader "BubbleDiscoBall"
 {
     Properties
     {
@@ -34,13 +34,17 @@ Shader "BubbleHighQuality"
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #define UNITY_PI 3.14
+            #pragma multi_compile_instancing
+            
+            #define UNITY_PI 3.14159265359
+
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             struct Attributes
             {
                 float4 positionOS : POSITION;
                 float2 uv         : TEXCOORD0;
+                float3 normalOS   : NORMAL;    
             };
 
             struct Varyings
@@ -69,12 +73,13 @@ Shader "BubbleHighQuality"
 
             float2 SphericalUV(float3 dir)
             {
+                // dir normalize olmalı
                 float2 uv;
-                float longitude = atan2(dir.z, dir.x);   
-                float latitude  = asin(dir.y);         
+                float longitude = atan2(dir.z, dir.x);  
+                float latitude  = asin(dir.y);           
 
                 uv.x = 0.5 + (longitude / (2.0 * UNITY_PI));
-                uv.y = 0.5 - (latitude / UNITY_PI);
+                uv.y = 0.5 - (latitude  / UNITY_PI);
 
                 return uv;
             }
@@ -90,23 +95,24 @@ Shader "BubbleHighQuality"
                 );
 
                 float heightValue = SAMPLE_TEXTURE2D_LOD(_HeightMap, sampler_HeightMap, rotatedUV, 0).r;
-                heightValue *= _HeightScale;
+                heightValue *= _HeightScale * 0.01;
+
+                float3 normalOS = normalize(IN.normalOS);
 
                 float3 posOS = IN.positionOS.xyz;
-                float3 dir = normalize(posOS);
 
-                posOS += dir * heightValue;
+                posOS += normalOS * heightValue;
 
                 OUT.positionHCS = TransformObjectToHClip(posOS);
-                OUT.uv = rotatedUV;
-                OUT.worldPos = TransformObjectToWorld(posOS);
 
-                float3 normalOS = normalize(dir);
+                OUT.uv = rotatedUV;
+
+                OUT.worldPos = TransformObjectToWorld(posOS);
                 OUT.normalWS = normalize(TransformObjectToWorldNormal(normalOS));
 
                 return OUT;
             }
-            
+
             float4 frag (Varyings IN) : SV_Target
             {
                 float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - IN.worldPos);
