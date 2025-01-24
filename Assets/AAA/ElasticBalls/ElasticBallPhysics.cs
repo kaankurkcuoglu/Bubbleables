@@ -56,7 +56,7 @@ public class ElasticBallPhysics : MonoBehaviour
         for (int i = 0; i < OriginalVertices.Length; i++)
         {
             var isHit = Physics.Raycast(position, OriginalVertices[i], out RaycastHit hit, OriginalVertexDistances[i]);
-            var hitDistance = isHit ? hit.distance : OriginalVertexDistances[i];
+            var hitDistance = isHit ? hit.distance - 0.01f : OriginalVertexDistances[i];
             Debug.DrawLine(position, position + hit.point, Color.red);
             DeformedVertices[i] = (hitDistance / OriginalVertexDistances[i]) * OriginalVertices[i];
         }
