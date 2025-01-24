@@ -4,6 +4,7 @@ Shader "RainbowBubble"
     {
         _BaseColor("Base Color", Color) = (1,1,1,1)
         _Alpha("Alpha", Range(0,1)) = 1
+        _ColorSpeed("Color Speed", Float) = 1
     }
 
     SubShader
@@ -42,6 +43,7 @@ Shader "RainbowBubble"
             CBUFFER_START(UnityPerMaterial)
                 float4 _BaseColor;
                 float _Alpha;
+                float _ColorSpeed;
             CBUFFER_END
 
             Varyings vert(Attributes IN)
@@ -70,7 +72,7 @@ Shader "RainbowBubble"
                 float3 refDir = refracted;
                 float theta = atan2(refDir.z, refDir.x) / (2.0 * UNITY_PI) + 0.5;
                 float phi = acos(refDir.y) / UNITY_PI;
-                float time = _Time.y * 0.1;
+                float time = _Time.y * 0.1 * _ColorSpeed;
                 float hue = frac(theta + phi + time);
                 float3 color = HueToRGB(hue);
                 color *= _BaseColor.rgb;
