@@ -21,7 +21,7 @@ partial struct TestNetcodeEntitiesServerSystem : ISystem
         foreach (var (simpleRpc, receiveRpcCommandRequest, entity) 
                  in SystemAPI.Query<RefRO<SimpleRPC>, RefRO<ReceiveRpcCommandRequest>>().WithEntityAccess())
         {
-            Debug.Log("Received RPC: " + simpleRpc.ValueRO.Value);
+            Debug.Log("Received RPC: " + simpleRpc.ValueRO.Value + "::" + receiveRpcCommandRequest.ValueRO.SourceConnection);
             entityCommandBuffer.DestroyEntity(entity);
         }
         entityCommandBuffer.Playback(state.EntityManager);
