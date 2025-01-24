@@ -7,14 +7,14 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_BubbleDiscoBallCullFront
-  m_Shader: {fileID: 4800000, guid: 9b2d0ff14ca44754a995bee6cf8a70c7, type: 3}
+  m_Name: BubbleBase
+  m_Shader: {fileID: 4800000, guid: 7dcf9ca154647564bab30cd12eb18d93, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 1
+  m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -24,22 +24,23 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _HeightMap:
-        m_Texture: {fileID: 2800000, guid: 183ce4ba9d21b2b48aeeff17f68636df, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ReflectionTex:
-        m_Texture: {fileID: 2800000, guid: da73e93cd3310504db7bc0438afbf91f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DistortionSpeed: 1.45
-    - _FresnelPower: 4.05
-    - _HeightScale: 0.065
-    - _ReflectionStrength: 0.036
-    - _RotationSpeed: 0.18
+    - _FresnelPower: 2
+    - _NoiseAmp: 0.05
+    - _NoiseFreq: 3
+    - _NoiseSpeed: 1
+    - _ReflectionStrength: 0.5
+    - _RotationSpeed: 0.5
     m_Colors:
-    - _BaseColor: {r: 0.30469012, g: 0.38091397, b: 0.38679233, a: 0.5803922}
-    - _FresnelColor: {r: 1, g: 0, b: 0, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FresnelColor: {r: 0.39999998, g: 0.7, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
