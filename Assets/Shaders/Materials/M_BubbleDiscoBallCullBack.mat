@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_BubbleDiscoBall
-  m_Shader: {fileID: 4800000, guid: 9b2d0ff14ca44754a995bee6cf8a70c7, type: 3}
+  m_Name: M_BubbleDiscoBallCullBack
+  m_Shader: {fileID: 4800000, guid: 347069f1d29731c47a05b2784d70bed3, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []

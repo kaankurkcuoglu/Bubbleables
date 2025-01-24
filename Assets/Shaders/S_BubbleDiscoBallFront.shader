@@ -1,4 +1,4 @@
-Shader "BubbleBase"
+Shader "BubbleDiscoBallCullBack"
 {
     Properties
     {
@@ -8,11 +8,12 @@ Shader "BubbleBase"
 
         _ReflectionTex("Reflection Texture", 2D) = "white" {}
         _ReflectionStrength("Reflection Strength", Range(0,1)) = 0.5
+
         _HeightMap("Height Map (R)", 2D) = "white" {}
-        _NoiseFreq("Noise Frequency", Float) = 3.0
-        _NoiseAmp("Noise Amplitude", Float) = 0.05
-        _NoiseSpeed("Noise Speed", Float) = 1.0
-        _RotationSpeed("UV Rotation Speed", Float) = 0.5
+        _HeightScale("Height Scale", Range(0,1)) = 0.1
+
+        _DistortionSpeed("Distortion Speed", Range(0,10)) = 1.0
+        _RotationSpeed("UV Rotation Speed", Range(0,10)) = 0.5
     }
 
     SubShader
@@ -24,6 +25,7 @@ Shader "BubbleBase"
             "IgnoreProjector" = "True"
         }
         LOD 100
+        Cull Back
         ZWrite Off
         Blend SrcAlpha OneMinusSrcAlpha
 
@@ -33,47 +35,52 @@ Shader "BubbleBase"
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-
+            
             #define UNITY_PI 3.14159265359
+
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             struct Attributes
             {
                 float4 positionOS : POSITION;
-                float3 normalOS   : NORMAL;
-                float2 uv        : TEXCOORD0;
+                float2 uv         : TEXCOORD0;
+                float3 normalOS   : NORMAL;    
             };
 
             struct Varyings
             {
                 float4 positionHCS : SV_POSITION;
-                float3 worldPos    : TEXCOORD0;
-                float3 normalWS    : TEXCOORD1;
+                float2 uv          : TEXCOORD0;
+                float3 worldPos    : TEXCOORD1;
+                float3 normalWS    : TEXCOORD2;
             };
+
+            TEXTURE2D(_HeightMap);
+            SAMPLER(sampler_HeightMap);
 
             TEXTURE2D(_ReflectionTex);
             SAMPLER(sampler_ReflectionTex);
-            TEXTURE2D(_HeightMap);
-            SAMPLER(sampler_HeightMap);
 
             float4 _BaseColor;
             float4 _FresnelColor;
             float  _FresnelPower;
-            float  _ReflectionStrength;
-            float _RotationSpeed;
 
-            float  _NoiseFreq;
-            float  _NoiseAmp;
-            float  _NoiseSpeed;
+            float  _ReflectionStrength;
+
+            float  _HeightScale;
+            float  _DistortionSpeed;
+            float  _RotationSpeed;
 
             float2 SphericalUV(float3 dir)
             {
-                float longitude = atan2(dir.z, dir.x); 
-                float latitude  = asin(dir.y);     
-
+                // dir normalize olmalı
                 float2 uv;
+                float longitude = atan2(dir.z, dir.x);  
+                float latitude  = asin(dir.y);           
+
                 uv.x = 0.5 + (longitude / (2.0 * UNITY_PI));
                 uv.y = 0.5 - (latitude  / UNITY_PI);
+
                 return uv;
             }
 
@@ -81,28 +88,24 @@ Shader "BubbleBase"
             {
                 Varyings OUT;
 
-                float3 posOS    = IN.positionOS.xyz;
-                float3 normalOS = normalize(IN.normalOS);
                 float rotation   = _Time.y * _RotationSpeed;
                 float2 rotatedUV = float2(
                     cos(rotation)*IN.uv.x - sin(rotation)*IN.uv.y,
                     sin(rotation)*IN.uv.x + cos(rotation)*IN.uv.y
                 );
-                float height = SAMPLE_TEXTURE2D_LOD(_HeightMap, sampler_HeightMap, rotatedUV, 0).r;
-                float3 posWS = TransformObjectToWorld(posOS);
 
-                float time = _Time.y * _NoiseSpeed;
+                float heightValue = SAMPLE_TEXTURE2D_LOD(_HeightMap, sampler_HeightMap, rotatedUV, 0).r;
+                heightValue *= _HeightScale * 0.01;
 
-                float noiseVal = 0.0;
-                noiseVal += sin(posWS.x * _NoiseFreq + time);
-                noiseVal += sin(posWS.y * _NoiseFreq + time);
-                noiseVal += sin(posWS.z * _NoiseFreq + time);
+                float3 normalOS = normalize(IN.normalOS);
 
-                noiseVal /= 3.0;
+                float3 posOS = IN.positionOS.xyz;
 
-                posOS += normalOS * (noiseVal * _NoiseAmp * 0.01) * height;
+                posOS += normalOS * heightValue;
 
                 OUT.positionHCS = TransformObjectToHClip(posOS);
+
+                OUT.uv = rotatedUV;
 
                 OUT.worldPos = TransformObjectToWorld(posOS);
                 OUT.normalWS = normalize(TransformObjectToWorldNormal(normalOS));
@@ -119,11 +122,14 @@ Shader "BubbleBase"
                 float3 fresnelColor = _FresnelColor.rgb * fresnelTerm;
 
                 float3 reflectDir = reflect(-viewDir, IN.normalWS);
+
                 float2 reflectionUV = SphericalUV(normalize(reflectDir));
+
                 float3 reflectionSample = SAMPLE_TEXTURE2D(_ReflectionTex, sampler_ReflectionTex, reflectionUV).rgb;
                 float3 reflectionColor  = reflectionSample * _ReflectionStrength;
 
                 float3 baseCol = _BaseColor.rgb;
+
                 float3 finalColor = baseCol + fresnelColor + reflectionColor;
                 float alpha = _BaseColor.a;
 

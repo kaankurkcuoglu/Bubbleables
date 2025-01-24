@@ -1,4 +1,4 @@
-Shader "BubbleDiscoBall"
+Shader "BubbleDiscoCullFront"
 {
     Properties
     {
@@ -25,7 +25,7 @@ Shader "BubbleDiscoBall"
             "IgnoreProjector" = "True"
         }
         LOD 100
-        Cull Off
+        Cull Front
         ZWrite Off
         Blend SrcAlpha OneMinusSrcAlpha
 
