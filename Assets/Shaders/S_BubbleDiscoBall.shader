@@ -25,7 +25,7 @@ Shader "BubbleDiscoBall"
             "IgnoreProjector" = "True"
         }
         LOD 100
-
+        Cull Off
         ZWrite Off
         Blend SrcAlpha OneMinusSrcAlpha
 

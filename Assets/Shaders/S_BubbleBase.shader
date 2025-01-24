@@ -32,6 +32,7 @@ Shader "BubbleHighQuality_NoSeam"
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma multi_compile_instancing
 
             #define UNITY_PI 3.14159265359
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
