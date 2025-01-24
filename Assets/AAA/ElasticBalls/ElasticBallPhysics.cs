@@ -101,6 +101,13 @@ public class ElasticBallPhysics : MonoBehaviour
         }
 
         Mesh.vertices = DeformedVertices;
+        Mesh.RecalculateBounds();
+Mesh.RecalculateNormals();
+Mesh.RecalculateTangents();
+        
+        
+        raycastCommands.Dispose();
+        resultsBuffer.Dispose();
     }
 
     void OnDrawGizmos()
