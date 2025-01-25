@@ -1,3 +1,4 @@
+using Game;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -19,7 +20,7 @@ partial struct NetcodePlayerMovementSystem : ISystem
     {
         var dt = SystemAPI.Time.DeltaTime;
         
-        foreach (var (netcodePlayerInput, localTransform) in SystemAPI.Query<RefRO<NetcodePlayerInput>, RefRW<LocalTransform>>().WithAll<Simulate>())
+        foreach (var (netcodePlayerInput, localTransform) in SystemAPI.Query<RefRO<PlayerInput>, RefRW<LocalTransform>>().WithAll<Simulate>())
         {
             float3 movementInput = new float3(netcodePlayerInput.ValueRO.MovementInputVector.x, 0, netcodePlayerInput.ValueRO.MovementInputVector.y);
             var runMultiplier = netcodePlayerInput.ValueRO.RunInputEvent.IsSet ? 2f : 1f;

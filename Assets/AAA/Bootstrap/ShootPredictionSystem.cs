@@ -1,3 +1,4 @@
+using Game;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.NetCode;
@@ -14,7 +15,7 @@ partial struct ShootPredictionSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        foreach (var input in SystemAPI.Query<RefRO<NetcodePlayerInput>>())
+        foreach (var input in SystemAPI.Query<RefRO<PlayerInput>>())
         {
             if (input.ValueRO.ShootInputEvent.IsSet)
             {

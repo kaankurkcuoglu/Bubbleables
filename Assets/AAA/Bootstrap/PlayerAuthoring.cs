@@ -9,7 +9,7 @@ class PlayerAuthoring : MonoBehaviour
         public override void Bake(PlayerAuthoring authoring)
         {
             var playerEntity = GetEntity(TransformUsageFlags.Dynamic);
-            AddComponent(playerEntity, new NetcodePlayerInput());
+            AddComponent(playerEntity, new PlayerInput());
             AddComponent(playerEntity, new PlayerTag());
             
             var gameConfig = Resources.Load<GameConfig>("GameConfig");
