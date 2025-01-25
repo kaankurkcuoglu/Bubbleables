@@ -31,6 +31,7 @@ class PlayerAuthoring : MonoBehaviour
 					State = FireState.NotRunning,
 					ProjectilePrefab = GetEntity(gameConfig.ProjectilePrefab, TransformUsageFlags.Dynamic),
 					ProjectileSpeed = gameConfig.ProjectileSpeed,
+					ProjectileScale = gameConfig.ProjectileScale
 				});
 			}
 		}

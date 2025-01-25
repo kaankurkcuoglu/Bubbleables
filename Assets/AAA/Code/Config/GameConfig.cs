@@ -13,5 +13,6 @@ namespace Game
 		public GameObject EnemyPrefab;
 		public GameObject ProjectilePrefab;
 		public float ProjectileSpeed;
+		public float ProjectileScale;
 	}
 }

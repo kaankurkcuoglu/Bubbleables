@@ -32,13 +32,12 @@ namespace Game
 					var playerPosition = playerTransform.ValueRO.Position;
 					const float forwardDist = 1.0f;
 					var spawnPos = playerPosition + playerForward * forwardDist;
-					const float projectileScale = 0.1f;
 
 					ecb.SetComponent(projectileEntity, new LocalTransform
 					{
 						Position = spawnPos,
 						Rotation = quaternion.identity,
-						Scale = projectileScale,
+						Scale = playerWeapon.ValueRW.ProjectileScale,
 					});
 					
 					ecb.SetComponent(projectileEntity, ghostOwner.ValueRO);
