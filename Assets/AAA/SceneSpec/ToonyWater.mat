@@ -69,7 +69,7 @@ Material:
     - _Amplitude2: -0.9
     - _CausticsIntensity: 13.12
     - _CausticsSpeed: 0.1
-    - _DepthCoefficient: 0.22
+    - _DepthCoefficient: 0.42
     - _DepthDensity: 0.5
     - _DepthFactor: 2.26
     - _DepthIntensity: 1
