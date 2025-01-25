@@ -16,15 +16,3 @@ class PlayerAuthoring : MonoBehaviour
     }
 
 }
-
-public struct NetcodePlayerInput : IInputComponentData
-{
-    public float2 MovementInputVector;
-    public InputEvent ShootInputEvent;
-    public InputEvent RunInputEvent;
-}
-
-public struct NetcodePlayer : IComponentData
-{
-}
-
