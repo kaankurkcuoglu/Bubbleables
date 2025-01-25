@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.Mathematics;
 
 namespace Game
 {
@@ -6,5 +7,6 @@ namespace Game
 	{
 		public int EnemyCount;
 		public Entity Enemy;
+		public Random Random;
 	}
 }

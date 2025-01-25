@@ -1,5 +1,7 @@
+using System.Diagnostics;
 using Unity.Entities;
 using UnityEngine;
+using Random = Unity.Mathematics.Random;
 
 namespace Game
 {
@@ -15,6 +17,7 @@ namespace Game
 				{
 					Enemy = GetEntity(config.EnemyPrefab),
 					EnemyCount = config.EnemyCount,
+					Random = new Random((uint)Stopwatch.GetTimestamp()),
 				});
 			}
 		}
