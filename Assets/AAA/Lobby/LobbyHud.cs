@@ -1,5 +1,7 @@
 using System;
+using Game;
 using TMPro;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.NetCode;
 using Unity.Networking.Transport;
@@ -13,11 +15,36 @@ namespace AAA.Lobby
         [SerializeField] private Button _hostButton;
         [SerializeField] private Button _joinButton;
         [SerializeField] private TMP_InputField _ipAddressInput;
-        
+
+        [SerializeField] private RectTransform _playerList;
+        [SerializeField] private PlayerListElement _playerListElementPrefab;
         private void Start()
         {
             _hostButton.onClick.AddListener(OnHostClicked);
             _joinButton.onClick.AddListener(OnJoinClicked);
+        }
+
+        private void Update()
+        {
+            if (ClientServerBootstrap.ClientWorld != null)
+            {
+                var entityManager = ECSHelper.GetClientWorld().EntityManager;
+                var query = entityManager.CreateEntityQuery(ComponentType.ReadOnly<ConnectedClient>());
+                var connections = query.ToEntityArray(Allocator.Temp);
+                query.Dispose();
+
+                for (int i = 0; i < _playerList.transform.childCount; i++)
+                {
+                    Destroy(_playerList.transform.GetChild(i).gameObject);
+                }
+                
+                foreach (var connectionEntity in connections)
+                {
+                    var connection = entityManager.GetComponentData<ConnectedClient>(connectionEntity);
+                    var playerListElement = Instantiate(_playerListElementPrefab, _playerList);
+                    playerListElement.SetData(connection.ConnectionId, connection.IpAddress.ToString());
+                }
+            }
         }
 
         private void OnJoinClicked()
