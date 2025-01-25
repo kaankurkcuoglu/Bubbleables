@@ -17,7 +17,7 @@ partial struct GoInGameServerSystem : ISystem
         state.RequireForUpdate<NetworkId>();
     }
 
-    // [BurstCompile]
+    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         EntityCommandBuffer entityCommandBuffer = new EntityCommandBuffer(Allocator.Temp);
@@ -31,8 +31,6 @@ partial struct GoInGameServerSystem : ISystem
             
             Entity playerEntity = entityCommandBuffer.Instantiate(entitiesReferences.PlayerPrefabEntity);
             entityCommandBuffer.SetComponent(playerEntity, LocalTransform.FromPosition(new float3(Random.Range(-5,5),0,0)));
-
-            // GameObject.Instantiate();
 
             var networkId = SystemAPI.GetComponent<NetworkId>(receiveRpcCommandRequest.ValueRO.SourceConnection);
             entityCommandBuffer.AddComponent(playerEntity, new GhostOwner
