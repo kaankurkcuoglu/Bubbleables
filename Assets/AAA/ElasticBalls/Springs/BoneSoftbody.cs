@@ -10,17 +10,17 @@ public class BoneSoftbody
     }
     #endregion
 
-    private ColliderShape Shape;
     private float ColliderSize;
+    private float ColliderOffset;
     private float RigidbodyMass;    
     private float Spring;
     private float Damper;
     private RigidbodyConstraints Constraints;
 
-    public BoneSoftbody(ColliderShape shape, float collidersize, float rigidbodymass, float spring, float damper, RigidbodyConstraints constraints)
+    public BoneSoftbody(float collidersize, float collideroffset, float rigidbodymass, float spring, float damper, RigidbodyConstraints constraints)
     {
-        Shape = shape;
         ColliderSize = collidersize;
+        ColliderOffset = collideroffset;
         RigidbodyMass = rigidbodymass;
         Spring = spring;
         Damper = damper;
@@ -28,7 +28,7 @@ public class BoneSoftbody
     }
     public Rigidbody AddCollider(ref GameObject go)
     {
-        return AddCollider(ref go, Shape, ColliderSize, RigidbodyMass);        
+        return AddCollider(ref go, ColliderSize, ColliderOffset, RigidbodyMass);        
     }
     public SpringJoint AddSpring(ref GameObject go1, ref GameObject go2)
     {
@@ -37,24 +37,16 @@ public class BoneSoftbody
         return sp;
     }
 
-    public Rigidbody AddCollider(ref GameObject go, ColliderShape shape, float size, float mass)
+    public Rigidbody AddCollider(ref GameObject go, float size, float offset, float mass)
     {
-        switch (shape)
-        {
-            case ColliderShape.Box:
-                var bc = go.AddComponent<BoxCollider>();
-                bc.size = new Vector3(size, size, size);
-                break;
-            case ColliderShape.Sphere:
-                var sc = go.AddComponent<SphereCollider>();
-                sc.radius = size;
-                break;
-        }
+        var sc = go.AddComponent<SphereCollider>();
+        sc.radius = size;
+        sc.center = new Vector3(0f, offset, 0f);
 
         var rb = go.AddComponent<Rigidbody>();
         rb.mass = mass;
         rb.linearDamping = 0f;
-        rb.angularDamping = 10f;
+        rb.angularDamping = 0f;
         rb.constraints = Constraints;
         return rb;
     }
@@ -64,6 +56,9 @@ public class BoneSoftbody
         sp.connectedBody = go2.GetComponent<Rigidbody>();
         sp.spring = spring;
         sp.damper = damper;
+        // sp.enablePreprocessing = true;
+        // sp.minDistance = 0f;
+        // sp.maxDistance = 100f;
         return sp;
     }
 }

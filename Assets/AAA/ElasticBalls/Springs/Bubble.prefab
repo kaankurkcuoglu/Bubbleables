@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9b073b42babcd9749b1590e6ce6b357a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.22
+      value: 1.14
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9b073b42babcd9749b1590e6ce6b357a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.47
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9b073b42babcd9749b1590e6ce6b357a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.99
+      value: 1.92
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9b073b42babcd9749b1590e6ce6b357a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -78,7 +78,7 @@ PrefabInstance:
       objectReference: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 919132149155446097, guid: 9b073b42babcd9749b1590e6ce6b357a, type: 3}
       propertyPath: m_Name
-      value: BoneSphere
+      value: Bubble
       objectReference: {fileID: 0}
     - target: {fileID: 1923824217161421283, guid: 9b073b42babcd9749b1590e6ce6b357a, type: 3}
       propertyPath: m_Icon
@@ -147,9 +147,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _armature: {fileID: 7190677039197202656}
   _spring: 1000
-  _damper: 0.1
-  _colliderShape: 0
-  _colliderSize: 0.0025
+  _damper: 111
+  _colliderSize: 0.006
+  _colliderOffset: 0.0045
   _rigidbodyMass: 1
 --- !u!4 &7190677039197202656 stripped
 Transform:

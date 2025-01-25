@@ -25,18 +25,18 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - BubbleDeformer0
+  - BubbleDeformer1
+  - BubbleDeformer2
+  - BubbleDeformer3
+  - BubbleDeformer4
+  - BubbleDeformer5
+  - BubbleDeformer6
+  - BubbleDeformer7
+  - BubbleDeformer8
+  - BubbleDeformer9
+  - BubbleDeformer10
+  - BubbleDeformer11
   m_SortingLayers:
   - name: Default
     uniqueID: 0
