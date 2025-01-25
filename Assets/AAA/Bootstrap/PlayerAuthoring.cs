@@ -10,7 +10,7 @@ class PlayerAuthoring : MonoBehaviour
         {
             var playerEntity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent(playerEntity, new NetcodePlayerInput());
-            AddComponent(playerEntity, new NetcodePlayer());
+            AddComponent(playerEntity, new PlayerTag());
             
             var gameConfig = Resources.Load<GameConfig>("GameConfig");
                 

@@ -1,5 +1,5 @@
 using Unity.Entities;
 
-public struct NetcodePlayer : IComponentData
+public struct PlayerTag : IComponentData
 {
 }
