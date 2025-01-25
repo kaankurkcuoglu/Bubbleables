@@ -20,6 +20,17 @@ class PlayerAuthoring : MonoBehaviour
                 AddComponent(playerEntity, new Health { Value = gameConfig.InitialPlayerHealth });
                 AddBuffer<DamageBuffer>(playerEntity);
             }
+            
+            // Weapon setup
+            {
+                AddComponent(playerEntity, new PlayerWeapon
+                {
+                    FireRate = gameConfig.FireRate,
+                    LastFireTime = 0f,
+                    ShootCommands = 0,
+                    State = FireState.NotRunning,
+                });
+            }
         }
     }
 
