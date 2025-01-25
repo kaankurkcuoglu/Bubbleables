@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 908163764543686690}
   - component: {fileID: 4417182218943237766}
   - component: {fileID: 3491106562833965613}
+  - component: {fileID: 672015805789783441}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -69,3 +70,15 @@ MonoBehaviour:
   UsePreSerialization: 0
   RollbackPredictedSpawnedGhostState: 0
   RollbackPredictionOnStructuralChanges: 1
+--- !u!114 &672015805789783441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8679469444596109588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c4a8148a23645b88360dc702e716eb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
