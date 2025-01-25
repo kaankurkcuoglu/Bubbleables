@@ -9,10 +9,10 @@ namespace Game
 	{
 		public static Entity GetRandomPlayer(ref Random random, ref SystemState state)
 		{
-			var query = state.EntityManager.CreateEntityQuery(
-				ComponentType.ReadOnly<PlayerTag>(),
-				ComponentType.ReadOnly<GhostOwner>());
-
+			var query = new EntityQueryBuilder(Allocator.Temp)
+				.WithAll<PlayerTag>()
+				.WithAll<GhostOwner>()
+				.Build(ref state);
 			var entities = query.ToEntityArray(Allocator.Temp);
 			var entityIdx = random.NextInt(0, entities.Length);
 			return entities[entityIdx];
