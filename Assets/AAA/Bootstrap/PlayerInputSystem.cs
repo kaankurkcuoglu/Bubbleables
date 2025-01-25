@@ -1,4 +1,3 @@
-using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
@@ -7,17 +6,9 @@ using UnityEngine;
 namespace Game
 {
 	[UpdateInGroup(typeof(GhostInputSystemGroup))]
-	partial struct NetcodePlayerInputSystem : ISystem
+	public partial class PlayerInputSystem : SystemBase
 	{
-		[BurstCompile]
-		public void OnCreate(ref SystemState state)
-		{
-			state.RequireForUpdate<NetworkStreamInGame>();
-			state.RequireForUpdate<PlayerInput>();
-		}
-
-		[BurstCompile]
-		public void OnUpdate(ref SystemState state)
+		protected override void OnUpdate()
 		{
 			var input = new PlayerInput();
 
@@ -60,15 +51,16 @@ namespace Game
 				if (Input.GetMouseButton(0))
 				{
 					input.IsFiring = true;
+
+					var plane = new Plane(Vector3.up, Vector3.zero);
+					var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+					plane.Raycast(ray, out var enter);
+					var hitPos = ray.GetPoint(enter);
+					input.FirePos = ((float3)hitPos).xz;
 				}
 
 				netcodePlayerInput.ValueRW = input;
 			}
-		}
-
-		[BurstCompile]
-		public void OnDestroy(ref SystemState state)
-		{
 		}
 	}
 }
