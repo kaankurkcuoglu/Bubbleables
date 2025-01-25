@@ -47,7 +47,7 @@ partial struct NetcodePlayerMovementSystem : ISystem
             };
 
             // Perform the raycast
-            bool isGrounded = physicsWorld.CastRay(raycastInput, out var hit);
+            bool isGrounded = true;//physicsWorld.CastRay(raycastInput, out var hit);
 
             // Debug visualization (optional, remove for production)
             Debug.DrawLine(rayStart, rayEnd, isGrounded ? Color.green : Color.red);
@@ -60,18 +60,21 @@ partial struct NetcodePlayerMovementSystem : ISystem
                 //Clamp the velocity to a maximum value
                 if (math.length(velocity.ValueRO.Linear) > 10)
                 {
+                    var ySpeed = velocity.ValueRO.Linear.y;
                     velocity.ValueRW.Linear = math.normalize(velocity.ValueRO.Linear) * 10;
-                }
-
-                // Apply jump only if the player is grounded
-                if (isGrounded && netcodePlayerInput.ValueRO.JumpInputEvet.IsSet)
-                {
-                    velocity.ValueRW.Linear.y = 7; // Apply upward velocity for jump
+                    velocity.ValueRW.Linear.y = ySpeed;
                 }
             }
             else
             {
-                velocity.ValueRW.Linear = float3.zero;
+                velocity.ValueRW.Linear.x = 0;
+                velocity.ValueRW.Linear.z = 0;
+            }
+            
+            // Apply jump only if the player is grounded
+            if (isGrounded && netcodePlayerInput.ValueRO.JumpInputEvet.IsSet)
+            {
+                velocity.ValueRW.Linear.y = 7; // Apply upward velocity for jump
             }
         }
     }
