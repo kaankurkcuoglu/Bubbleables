@@ -57,14 +57,14 @@ public class ElasticBallPhysics : MonoBehaviour
     void FixedUpdate()
     {
         double totalSquish = 0;
-        int squishCount = 0;
+        var squishCount = 0;
         var position = transform.position;
         var raycastCommands = new NativeArray<RaycastCommand>(OriginalVertices.Length, Allocator.TempJob);
         var resultsBuffer = new NativeArray<RaycastHit>(OriginalVertices.Length, Allocator.TempJob);
 
         var queryParameters = QueryParameters.Default;
 
-        for (int i = 0; i < OriginalVertices.Length; i++) 
+        for (var i = 0; i < OriginalVertices.Length; i++) 
             raycastCommands[i] = new RaycastCommand(position - OriginalVertices[i], OriginalVertices[i] * 2, queryParameters, OriginalVertexDistances[i] * 2);
         
         var raycastJobHandle = RaycastCommand.ScheduleBatch(raycastCommands, resultsBuffer, 1, 1, default(JobHandle));
@@ -91,8 +91,8 @@ public class ElasticBallPhysics : MonoBehaviour
         
         // Apply additional squish effect
         var totalNonSquishedCount = OriginalVertices.Length - squishCount;
-        float additionalInflate = (float)(totalSquish / totalNonSquishedCount);
-        for (int i = 0; i < OriginalVertices.Length; i++)
+        var additionalInflate = (float)(totalSquish / totalNonSquishedCount);
+        for (var i = 0; i < OriginalVertices.Length; i++)
         {
             if (!SquishedVertices[i])
             {
