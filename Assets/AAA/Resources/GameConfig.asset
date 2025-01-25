@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitialPlayerHealth: 100
   InitialEnemyHealth: 100
-  EnemyCount: 1000
+  EnemyCount: 50
   EnemyPrefab: {fileID: 6739639191579126437, guid: 764e31fbb733c4f049fec7d9e7862a1b, type: 3}
