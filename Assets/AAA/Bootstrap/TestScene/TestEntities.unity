@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 1677428800}
   - component: {fileID: 1677428799}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: EntitiesReferencesAuthoring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

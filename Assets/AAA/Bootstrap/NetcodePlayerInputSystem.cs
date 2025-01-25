@@ -37,8 +37,27 @@ partial struct NetcodePlayerInputSystem : ISystem
             {
                 inputVector.x += 1;
             }
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                netcodePlayerInput.ValueRW.RunInputEvent.Set();
+            }
+            else
+            {
+                netcodePlayerInput.ValueRW.RunInputEvent = default;
+            }
             
-            netcodePlayerInput.ValueRW.InputVector = inputVector;
+            netcodePlayerInput.ValueRW.MovementInputVector = inputVector;
+
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                netcodePlayerInput.ValueRW.ShootInputEvent.Set();
+            }
+            else
+            {
+                netcodePlayerInput.ValueRW.ShootInputEvent = default;
+            }
         }        
     }
 

@@ -18,6 +18,8 @@ class NetcodePlayerInputAuthoring : MonoBehaviour
 
 public struct NetcodePlayerInput : IInputComponentData
 {
-    public float2 InputVector;
+    public float2 MovementInputVector;
+    public InputEvent ShootInputEvent;
+    public InputEvent RunInputEvent;
 }
 

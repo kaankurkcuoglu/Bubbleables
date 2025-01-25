@@ -19,8 +19,9 @@ partial struct NetcodePlayerMovementSystem : ISystem
     {
         foreach (var (netcodePlayerInput, localTransform) in SystemAPI.Query<RefRO<NetcodePlayerInput>, RefRW<LocalTransform>>().WithAll<Simulate>())
         {
-            float3 asd = new float3(netcodePlayerInput.ValueRO.InputVector.x, 0, netcodePlayerInput.ValueRO.InputVector.y);
-            localTransform.ValueRW.Position +=  asd * Time.deltaTime * 10;
+            float3 movementInput = new float3(netcodePlayerInput.ValueRO.MovementInputVector.x, 0, netcodePlayerInput.ValueRO.MovementInputVector.y);
+            var runMultiplier = netcodePlayerInput.ValueRO.RunInputEvent.IsSet ? 2f : 1f;
+            localTransform.ValueRW.Position +=  movementInput * Time.deltaTime * 10 * runMultiplier;
         }
     }
 

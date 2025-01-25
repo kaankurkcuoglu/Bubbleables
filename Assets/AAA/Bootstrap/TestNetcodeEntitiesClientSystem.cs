@@ -21,7 +21,7 @@ partial struct TestNetcodeEntitiesClientSystem : ISystem
             Entity rpcEntity = state.EntityManager.CreateEntity();
             state.EntityManager.AddComponentData(rpcEntity, new SimpleRPC
             {
-                Value = 56
+                Value = Random.Range(0, 100)
             });
             state.EntityManager.AddComponentData(rpcEntity, new SendRpcCommandRequest());
             Debug.Log("Sending RPC...");
