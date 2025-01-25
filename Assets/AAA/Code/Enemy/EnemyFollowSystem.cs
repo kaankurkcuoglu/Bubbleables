@@ -24,7 +24,7 @@ namespace Game
             var localTransformLookup = state.GetComponentLookup<LocalTransform>(true);
             
             foreach (var (enemyData, physicsVelocity, localTransform) in 
-                     SystemAPI.Query<RefRW<EnemyData>, RefRW<PhysicsVelocity>, RefRO<LocalTransform>>())
+                     SystemAPI.Query<RefRW<EnemyData>, RefRW<PhysicsVelocity>, RefRW<LocalTransform>>())
             {
                 if (enemyData.ValueRW.TargetEntity == Entity.Null)
                 {
@@ -38,6 +38,7 @@ namespace Game
                         var enemyPosition = localTransform.ValueRO.Position;
                         var direction = math.normalize(targetPosition - enemyPosition);
                         physicsVelocity.ValueRW.Linear = direction * enemyData.ValueRO.Speed;
+                        localTransform.ValueRW.Rotation = quaternion.LookRotation(direction, math.up());
                     }
                 }
                 
