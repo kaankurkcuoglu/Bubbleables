@@ -60,6 +60,15 @@ namespace Game
 				}
 
 				netcodePlayerInput.ValueRW = input;
+
+				if (Input.GetKeyDown(KeyCode.Space))
+				{
+					netcodePlayerInput.ValueRW.JumpInputEvet.Set();
+				}
+				else
+				{
+					netcodePlayerInput.ValueRW.JumpInputEvet = default;
+				}
 			}
 		}
 	}

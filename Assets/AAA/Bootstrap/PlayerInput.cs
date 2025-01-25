@@ -10,5 +10,6 @@ namespace Game
 		public InputEvent RunInputEvent;
 		public bool IsFiring;
 		public float2 FirePos;
+		public InputEvent JumpInputEvet;
 	}
 }
