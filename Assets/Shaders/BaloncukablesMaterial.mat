@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FRESNEL
+  m_Name: BaloncukablesMaterial
   m_Shader: {fileID: -6465566751694194690, guid: b13e3df469d9948718ed5decfb9bdada, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -38,10 +38,21 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AddAlpha: 0
+    - _BlendOpacity: 25.86
+    - _FresnelOpacity: 2.18
+    - _FresnelPower: 0.35
+    - _FresnelStrength: 1
+    - _NormalPower: 5
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _ReflectionStrength: 65.09
     - _SkinMatrixIndex: 0
-    m_Colors: []
+    - _Speed: 0.1
+    m_Colors:
+    - _DivideColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GradientScale: {r: 3, g: 1, b: 3, a: 0}
+    - _NoiseSubtraction: {r: 0.4, g: 0.4, b: 0.4, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &2459506451882070905
