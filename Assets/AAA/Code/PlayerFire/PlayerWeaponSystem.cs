@@ -1,8 +1,10 @@
 using System;
 using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
+using Unity.Physics;
 using Unity.Transforms;
 
 namespace Game
@@ -19,10 +21,11 @@ namespace Game
 		public void OnUpdate(ref SystemState state)
 		{
 			var currentTime = (float)SystemAPI.Time.ElapsedTime;
+			var ecb = new EntityCommandBuffer(Allocator.Temp);
 
-			foreach (var (playerInput, playerWeapon, playerTransform, shootBuffer) in SystemAPI
+			foreach (var (playerInput, playerWeapon, playerTransform, shootBuffer, ghostOwner) in SystemAPI
 				         .Query<RefRO<PlayerInput>, RefRW<PlayerWeapon>, RefRO<LocalTransform>,
-					         DynamicBuffer<ShootCommandBuffer>>()
+					         DynamicBuffer<ShootCommandBuffer>, RefRO<GhostOwner>>()
 				         .WithAll<Simulate>())
 			{
 				switch (playerWeapon.ValueRW.State)
@@ -49,8 +52,31 @@ namespace Game
 
 							for (int i = 0; i < timesFired; i++)
 							{
-								var fireDir = math.normalizesafe(playerInput.ValueRO.FirePos - playerTransform.ValueRO.Position.xz);
-								shootBuffer.Add(new ShootCommandBuffer { Value = fireDir });
+								var fireDir = math.normalizesafe(playerInput.ValueRO.FirePos -
+								                                 playerTransform.ValueRO.Position.xz);
+								var projectileEntity = ecb.Instantiate(playerWeapon.ValueRW.ProjectilePrefab);
+								var playerPosition = playerTransform.ValueRO.Position;
+								const float forwardDist = 0.1f;
+
+								ecb.SetComponent(projectileEntity, new LocalTransform
+								{
+									Position = playerPosition + fireDir.x0y() * forwardDist,
+									Rotation = quaternion.identity,
+									Scale = playerWeapon.ValueRW.ProjectileScale,
+								});
+
+								ecb.SetComponent(projectileEntity, ghostOwner.ValueRO);
+								ecb.SetComponent(projectileEntity, new PhysicsVelocity
+								{
+									Linear = fireDir.x0y() * playerWeapon.ValueRW.ProjectileSpeed,
+									Angular = float3.zero,
+								});
+
+								const float destroyDelay = 5f;
+								ecb.SetComponent(projectileEntity, new Projectile
+								{
+									DestroyTime = currentTime + destroyDelay,
+								});
 							}
 						}
 						else
@@ -64,6 +90,8 @@ namespace Game
 						throw new ArgumentOutOfRangeException();
 				}
 			}
+
+			ecb.Playback(state.EntityManager);
 		}
 
 		[BurstCompile]

@@ -27,30 +27,7 @@ namespace Game
 			{
 				for (int i = 0; i < shootCommands.Length; i++)
 				{
-					var projectileDir = shootCommands[i].Value;
-					var projectileEntity = ecb.Instantiate(playerWeapon.ValueRW.ProjectilePrefab);
-					var playerPosition = playerTransform.ValueRO.Position;
-					const float forwardDist = 0.1f;
-
-					ecb.SetComponent(projectileEntity, new LocalTransform
-					{
-						Position = playerPosition + projectileDir.x0y() * forwardDist,
-						Rotation = quaternion.identity,
-						Scale = playerWeapon.ValueRW.ProjectileScale,
-					});
-					
-					ecb.SetComponent(projectileEntity, ghostOwner.ValueRO);
-					ecb.SetComponent(projectileEntity, new PhysicsVelocity
-					{
-						Linear = projectileDir.x0y() * playerWeapon.ValueRW.ProjectileSpeed,
-						Angular = float3.zero,
-					});
-
-					const float destroyDelay = 5f;
-					ecb.SetComponent(projectileEntity, new Projectile
-					{
-						DestroyTime = currentTime + destroyDelay,
-					});
+	
 				}
 
 				shootCommands.Clear();

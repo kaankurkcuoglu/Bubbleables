@@ -16,7 +16,7 @@ MonoBehaviour:
   InitialEnemyHealth: 100
   EnemyCount: 0
   EnemySpeed: 5
-  FireRate: 6000
+  FireRate: 600
   EnemyPrefab: {fileID: 6739639191579126437, guid: 764e31fbb733c4f049fec7d9e7862a1b, type: 3}
   PlayerModels:
   - {fileID: 6110905011732126284, guid: 2fed8df62f1da674aac4c21c2560ec72, type: 3}
@@ -24,5 +24,5 @@ MonoBehaviour:
   - {fileID: 1445498268162277606, guid: 6bbe6e5e2314cdf4b89a611eac874702, type: 3}
   - {fileID: 5294708864438724841, guid: 270831c65d4160e469320ecd2f316843, type: 3}
   ProjectilePrefab: {fileID: 4464983849442439012, guid: f6b88a387c9284c51bcd90824ec6ecae, type: 3}
-  ProjectileSpeed: 50
+  ProjectileSpeed: 25
   ProjectileScale: 1
