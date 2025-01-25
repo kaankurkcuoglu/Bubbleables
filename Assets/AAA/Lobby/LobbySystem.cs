@@ -18,16 +18,25 @@ namespace AAA.Lobby
         public void OnUpdate(ref SystemState state)
         {
             var buffer = new EntityCommandBuffer(Allocator.Temp);
+            using var drvQuery = state.EntityManager.CreateEntityQuery(ComponentType.ReadWrite<NetworkStreamDriver>());
+
             foreach (var (connection,entity) in SystemAPI.Query<RefRO<NetworkStreamConnection>>().WithNone<ConnectedClient>().WithEntityAccess())
             {
                 if (connection.ValueRO.CurrentState == ConnectionState.State.Connected)
                 {
-                    buffer.AddComponent(entity, new ConnectedClient());
+                    var driver = drvQuery.GetSingletonRW<NetworkStreamDriver>();
+                    var networkId = SystemAPI.GetComponentRO<NetworkId>(entity);
+                    var connectedClient = new ConnectedClient()
+                    {
+                        ConnectionId = networkId.ValueRO.Value,
+                        IpAddress = driver.ValueRO.GetRemoteEndPoint(connection.ValueRO).ToString()
+                    };
+                    buffer.AddComponent(entity, connectedClient);
                     Debug.Log("Client connected");
 
                     if (state.World.IsServer())
                     {
-                        Debug.Log("Client connected to the server");
+                        Debug.Log($"Client connected to the server {connectedClient.ConnectionId} {connectedClient.IpAddress}");
                     }
                 }
             }
@@ -37,5 +46,7 @@ namespace AAA.Lobby
     
     public struct ConnectedClient : IComponentData
     {
+        public int ConnectionId;
+        public FixedString32Bytes IpAddress;
     }
 }
