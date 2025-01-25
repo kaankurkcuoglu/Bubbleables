@@ -30,7 +30,6 @@ namespace Game
 					ecb.SetComponentEnabled<Alive>(entity, false);
 				}
 
-
 				damageBuffer.Clear();
 			}
 			

@@ -6,6 +6,8 @@ namespace Game
 	[CreateAssetMenu]
 	public class GameConfig : ScriptableObject
 	{
+		public float EnemyAttackRange = 2;
+		public int EnemyAttackDamage = 1;
 		public int InitialPlayerHealth = 100;
 		public int InitialEnemyHealth = 100;
 		public int EnemyCount = 100_000;

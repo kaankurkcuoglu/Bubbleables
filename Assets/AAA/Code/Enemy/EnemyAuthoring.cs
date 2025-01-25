@@ -15,6 +15,8 @@ namespace Game
                 AddComponent(entity, new EnemyData
                 {
                     Speed = config.EnemySpeed,
+                    AttackRange = config.EnemyAttackRange,
+                    AttackDamage = config.EnemyAttackDamage,
                     TargetEntity = Entity.Null
                 });
 

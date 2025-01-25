@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e4208acc02348988af982193b171f58, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
+  EnemyAttackRange: 1
+  EnemyAttackDamage: 1
   InitialPlayerHealth: 100
   InitialEnemyHealth: 100
   EnemyCount: 100

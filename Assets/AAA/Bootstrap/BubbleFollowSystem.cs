@@ -7,6 +7,7 @@ using Unity.NetCode;
 using Unity.Physics;
 using Unity.Transforms;
 using UnityEngine;
+using UnityEngine.UI;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -16,6 +17,7 @@ namespace AAA.Bootstrap
     public partial class BubbleFollowSystem : SystemBase
     {
         GameObject bubblePrefab;
+        Image healthBar;
         public Dictionary<int, (BoneSphere, PlayerAnimatorController)> playerFollowers = new Dictionary<int, (BoneSphere, PlayerAnimatorController)>();
         
         
@@ -24,7 +26,7 @@ namespace AAA.Bootstrap
             try
             {
                 bubblePrefab = Object.FindFirstObjectByType<BubbleReference>().BubblePrefab;
-            }
+                healthBar = bubblePrefab.transform.Find("ProgressBarFill").GetComponent<Image>(); }
             catch (Exception)
             {
                 return;
@@ -34,7 +36,7 @@ namespace AAA.Bootstrap
 
         protected override void OnUpdate()
         {
-            foreach (var (_, transform, ghostOwner, velocity) in SystemAPI.Query<RefRO<PlayerTag>, RefRO<LocalTransform>, RefRO<GhostOwner>, RefRO<PhysicsVelocity>>())
+            foreach (var (_, transform, ghostOwner, velocity, health) in SystemAPI.Query<RefRO<PlayerTag>, RefRO<LocalTransform>, RefRO<GhostOwner>, RefRO<PhysicsVelocity>, RefRO<Health>>())
             {
                 if (!playerFollowers.TryGetValue(ghostOwner.ValueRO.NetworkId, out var followers))
                 {
@@ -45,7 +47,7 @@ namespace AAA.Bootstrap
                     playerFollowers.Add(ghostOwner.ValueRO.NetworkId, followers);
                 }
                 
-                
+                //healthBar.fillAmount = health.ValueRO.Value / 100f;
                 followers.Item1.transform.position = transform.ValueRO.Position;
                 followers.Item2.transform.position = transform.ValueRO.Position;
                 

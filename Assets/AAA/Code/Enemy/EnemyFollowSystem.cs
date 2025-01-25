@@ -1,7 +1,6 @@
 ﻿using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.NetCode;
 using Unity.Physics;
 using Unity.Transforms;
 
@@ -22,6 +21,7 @@ namespace Game
         public void OnUpdate(ref SystemState state)
         {
             var localTransformLookup = state.GetComponentLookup<LocalTransform>(true);
+            var healthBufferLookup = state.GetBufferLookup<DamageBuffer>(false);
             
             foreach (var (enemyData, physicsVelocity, localTransform) in 
                      SystemAPI.Query<RefRW<EnemyData>, RefRW<PhysicsVelocity>, RefRW<LocalTransform>>())
@@ -39,6 +39,15 @@ namespace Game
                         var direction = math.normalize(targetPosition - enemyPosition);
                         physicsVelocity.ValueRW.Linear = direction * enemyData.ValueRO.Speed;
                         localTransform.ValueRW.Rotation = quaternion.LookRotation(direction, math.up());
+                        
+                        // Check if the enemy is close enough to the target
+                        if (math.distance(targetPosition, enemyPosition) < enemyData.ValueRO.AttackRange)
+                        {
+                            healthBufferLookup[enemyData.ValueRW.TargetEntity].Add(new DamageBuffer
+                            {
+                                Damage = enemyData.ValueRO.AttackDamage
+                            });
+                        }
                     }
                 }
                 
