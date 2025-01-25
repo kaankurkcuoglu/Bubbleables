@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Game;
 using Unity.Entities;
@@ -6,6 +7,7 @@ using Unity.NetCode;
 using Unity.Physics;
 using Unity.Transforms;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace AAA.Bootstrap
@@ -19,7 +21,14 @@ namespace AAA.Bootstrap
         
         protected override void OnCreate()
         {
-            bubblePrefab = Object.FindFirstObjectByType<BubbleReference>().BubblePrefab;
+            try
+            {
+                bubblePrefab = Object.FindFirstObjectByType<BubbleReference>().BubblePrefab;
+            }
+            catch (Exception)
+            {
+                return;
+            }
         }
 
 
