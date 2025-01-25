@@ -54,18 +54,28 @@ partial struct NetcodePlayerMovementSystem : ISystem
 
             // Apply movement
             float3 movementInput = new float3(netcodePlayerInput.ValueRO.MovementInputVector.x, 0, netcodePlayerInput.ValueRO.MovementInputVector.y);
-            velocity.ValueRW.Linear += movementInput * 5 * SystemAPI.Time.DeltaTime; // Apply horizontal movement
-            //Clamp the velocity to a maximum value
-            if (math.length(velocity.ValueRO.Linear) > 10)
+            if (math.length(movementInput) > 0)
             {
-                velocity.ValueRW.Linear = math.normalize(velocity.ValueRO.Linear) * 10;
-            }
+                velocity.ValueRW.Linear += movementInput * 50 * SystemAPI.Time.DeltaTime; // Apply horizontal movement
+                //Clamp the velocity to a maximum value
+                if (math.length(velocity.ValueRO.Linear) > 10)
+                {
+                    velocity.ValueRW.Linear = math.normalize(velocity.ValueRO.Linear) * 10;
+                }
 
-            // Apply jump only if the player is grounded
-            if (isGrounded && netcodePlayerInput.ValueRO.JumpInputEvet.IsSet)
-            {
-                velocity.ValueRW.Linear.y = 7; // Apply upward velocity for jump
+                // Apply jump only if the player is grounded
+                if (isGrounded && netcodePlayerInput.ValueRO.JumpInputEvet.IsSet)
+                {
+                    velocity.ValueRW.Linear.y = 7; // Apply upward velocity for jump
+                }
             }
+            else
+            {
+                velocity.ValueRW.Linear = float3.zero;
+                
+            }
+            
+
         }
     }
 
