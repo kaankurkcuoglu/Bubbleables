@@ -12,5 +12,6 @@ namespace Game
 		public int FireRate = 600;
 		public GameObject EnemyPrefab;
 		public GameObject ProjectilePrefab;
+		public float ProjectileSpeed;
 	}
 }

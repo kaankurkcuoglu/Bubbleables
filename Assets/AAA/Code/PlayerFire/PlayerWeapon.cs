@@ -7,6 +7,7 @@ namespace Game
 	{
 		public int FireRate;
 		public int ShootCommands;
+		public float ProjectileSpeed;
 
 		[GhostField]
 		public Entity ProjectilePrefab;

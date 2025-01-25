@@ -3,6 +3,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
+using Unity.Physics;
 using Unity.Transforms;
 
 namespace Game
@@ -31,15 +32,21 @@ namespace Game
 					var playerPosition = playerTransform.ValueRO.Position;
 					const float forwardDist = 1.0f;
 					var spawnPos = playerPosition + playerForward * forwardDist;
+					const float projectileScale = 0.1f;
 
 					ecb.SetComponent(projectileEntity, new LocalTransform
 					{
 						Position = spawnPos,
 						Rotation = quaternion.identity,
-						Scale = 1.0f,
+						Scale = projectileScale,
 					});
 					
 					ecb.SetComponent(projectileEntity, ghostOwner.ValueRO);
+					ecb.SetComponent(projectileEntity, new PhysicsVelocity
+					{
+						Linear = playerForward * playerWeapon.ValueRW.ProjectileSpeed,
+						Angular = float3.zero,
+					});
 				}
 			}
 			
