@@ -13,32 +13,61 @@ partial struct NetcodePlayerMovementSystem : ISystem
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        
+        // No initialization needed for now
     }
 
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         var dt = SystemAPI.Time.DeltaTime;
-        
+
+        // Get the PhysicsWorld singleton to perform raycasting
+        var physicsWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
+
         foreach (var (netcodePlayerInput, localTransform, velocity) in SystemAPI.Query<RefRO<PlayerInput>, RefRW<LocalTransform>, RefRW<PhysicsVelocity>>().WithAll<Simulate>())
         {
+            // Define the player's position and raycast parameters
+            var playerPosition = localTransform.ValueRW.Position;
+            float3 rayStart = playerPosition + new float3(0, 0f, 0);  // Start the ray slightly above the player
+            float3 rayEnd = playerPosition + new float3(0, -1.85f, 0);   // End the ray below the player's feet
+
+            
+            
+            // Set up the raycast input
+            var raycastInput = new RaycastInput
+            {
+                Start = rayStart,
+                End = rayEnd,
+                Filter = new CollisionFilter
+                {
+                    BelongsTo =  ~0u, // Belongs to all layers
+                    CollidesWith = 1u << 7, // Collides with layer 1
+                    GroupIndex = 0
+                }
+            };
+
+            // Perform the raycast
+            bool isGrounded = physicsWorld.CastRay(raycastInput, out var hit);
+
+            // Debug visualization (optional, remove for production)
+            Debug.DrawLine(rayStart, rayEnd, isGrounded ? Color.green : Color.red);
+
+            // Apply movement
             float3 movementInput = new float3(netcodePlayerInput.ValueRO.MovementInputVector.x, 0, netcodePlayerInput.ValueRO.MovementInputVector.y);
             var runMultiplier = netcodePlayerInput.ValueRO.RunInputEvent.IsSet ? 2f : 1f;
-            localTransform.ValueRW.Position +=  movementInput * dt * 10 * runMultiplier;
+            localTransform.ValueRW.Position += movementInput * dt * 10 * runMultiplier;
 
-            if (netcodePlayerInput.ValueRO.JumpInputEvet.IsSet)
+            // Apply jump only if the player is grounded
+            if (isGrounded && netcodePlayerInput.ValueRO.JumpInputEvet.IsSet)
             {
-                velocity.ValueRW.Linear.y = 10;
+                velocity.ValueRW.Linear.y = 7; // Apply upward velocity for jump
             }
-            
-            
         }
     }
 
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
     {
-        
+        // No cleanup needed for now
     }
 }
