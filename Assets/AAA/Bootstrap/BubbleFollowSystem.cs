@@ -12,7 +12,7 @@ namespace AAA.Bootstrap
         
         GameObject bubblePrefab;
 
-        public Dictionary<int, GameObject> bubbles = new Dictionary<int, GameObject>();
+        public Dictionary<int, BoneSphere> bubbles = new Dictionary<int, BoneSphere>();
         
         protected override void OnCreate()
         {
@@ -26,11 +26,12 @@ namespace AAA.Bootstrap
             {
                 if (!bubbles.TryGetValue(ghostOwner.ValueRO.NetworkId, out var bubble))
                 {
-                    bubble = Object.Instantiate(bubblePrefab);
+                    bubble = Object.Instantiate(bubblePrefab).GetComponent<BoneSphere>();
                     bubbles.Add(ghostOwner.ValueRO.NetworkId, bubble);
                 }
                 
                 bubble.transform.position = transform.ValueRO.Position;
+                // bubble.SetRootPosition(transform.ValueRO.Position);
             }
         }
     }
