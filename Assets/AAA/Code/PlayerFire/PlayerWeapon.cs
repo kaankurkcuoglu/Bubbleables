@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.NetCode;
 
 namespace Game
 {
@@ -6,7 +7,11 @@ namespace Game
 	{
 		public int FireRate;
 		public int ShootCommands;
+		
+		[GhostField]
 		public float LastFireTime;
+
+		[GhostField]
 		public FireState State;
 	}
 }
