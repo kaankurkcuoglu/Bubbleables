@@ -7,6 +7,9 @@ namespace Game
 	{
 		public int FireRate;
 		public int ShootCommands;
+
+		[GhostField]
+		public Entity ProjectilePrefab;
 		
 		[GhostField]
 		public float LastFireTime;
