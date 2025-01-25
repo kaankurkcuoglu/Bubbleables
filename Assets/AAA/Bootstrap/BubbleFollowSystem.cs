@@ -22,7 +22,7 @@ namespace AAA.Bootstrap
 
         protected override void OnUpdate()
         {
-            foreach (var (netcodePlayer, transform, ghostOwner) in SystemAPI.Query<RefRO<NetcodePlayer>, RefRO<LocalTransform>, RefRO<GhostOwner>>())
+            foreach (var (netcodePlayer, transform, ghostOwner) in SystemAPI.Query<RefRO<PlayerTag>, RefRO<LocalTransform>, RefRO<GhostOwner>>())
             {
                 if (!bubbles.TryGetValue(ghostOwner.ValueRO.NetworkId, out var bubble))
                 {
