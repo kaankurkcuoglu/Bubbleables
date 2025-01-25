@@ -1,16 +1,30 @@
+using Unity.Entities;
+using Unity.Mathematics;
+using Unity.NetCode;
 using UnityEngine;
 
-public class PlayerAuthoring : MonoBehaviour
+class PlayerAuthoring : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    class Baker : Baker<PlayerAuthoring>
     {
-        
+        public override void Bake(PlayerAuthoring authoring)
+        {
+            Entity entity = GetEntity(TransformUsageFlags.Dynamic);
+            AddComponent(entity, new NetcodePlayerInput());
+            AddComponent(entity, new NetcodePlayer());
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
+
+public struct NetcodePlayerInput : IInputComponentData
+{
+    public float2 MovementInputVector;
+    public InputEvent ShootInputEvent;
+    public InputEvent RunInputEvent;
+}
+
+public struct NetcodePlayer : IComponentData
+{
+}
+

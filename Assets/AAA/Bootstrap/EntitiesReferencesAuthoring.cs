@@ -5,6 +5,7 @@ using UnityEngine;
 public class EntitiesReferencesAuthoring : MonoBehaviour
 {
     public GameObject PlayerPrefabGameObject;
+    public GameObject BubblePrefabGameObject;
     public class Baker : Baker<EntitiesReferencesAuthoring>
     {
         public override void Bake(EntitiesReferencesAuthoring authoring)
@@ -12,7 +13,8 @@ public class EntitiesReferencesAuthoring : MonoBehaviour
             Entity entity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent(entity, new EntitiesReferences
             {
-                playerPrefabEntity = GetEntity(authoring.PlayerPrefabGameObject, TransformUsageFlags.Dynamic)
+                PlayerPrefabEntity = GetEntity(authoring.PlayerPrefabGameObject, TransformUsageFlags.Dynamic),
+                BubblePrefabEntity = GetEntity(authoring.BubblePrefabGameObject, TransformUsageFlags.Dynamic)
             });
         }
     }
@@ -20,5 +22,6 @@ public class EntitiesReferencesAuthoring : MonoBehaviour
 
 public struct EntitiesReferences : IComponentData
 {
-    public Entity playerPrefabEntity;
+    public Entity PlayerPrefabEntity;
+    public Entity BubblePrefabEntity;
 }
