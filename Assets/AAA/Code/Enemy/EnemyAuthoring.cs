@@ -9,11 +9,12 @@ namespace Game
         {
             public override void Bake(EnemyAuthoring authoring)
             {
+                var config = Resources.Load<GameConfig>("GameConfig");
                 var entity = GetEntity(authoring, TransformUsageFlags.Dynamic);
                 AddComponent<EnemyTag>(entity);
                 AddComponent(entity, new EnemyData
                 {
-                    Speed = 1f,
+                    Speed = config.EnemySpeed,
                     TargetEntity = Entity.Null
                 });
 
