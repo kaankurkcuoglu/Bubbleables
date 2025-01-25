@@ -21,6 +21,7 @@ namespace Game
 		public void OnUpdate(ref SystemState state)
 		{
 			var ecb = new EntityCommandBuffer(Allocator.Temp);
+			var currentTime = (float)SystemAPI.Time.ElapsedTime;
 			
 			foreach (var (playerWeapon, playerTransform, ghostOwner) in SystemAPI.Query<RefRW<PlayerWeapon>, RefRO<LocalTransform>, RefRO<GhostOwner>>())
 			{
@@ -30,7 +31,7 @@ namespace Game
 					var projectileEntity = ecb.Instantiate(playerWeapon.ValueRW.ProjectilePrefab);
 					var playerForward = playerTransform.ValueRO.Forward();
 					var playerPosition = playerTransform.ValueRO.Position;
-					const float forwardDist = 1.0f;
+					const float forwardDist = 0.1f;
 					var spawnPos = playerPosition + playerForward * forwardDist;
 
 					ecb.SetComponent(projectileEntity, new LocalTransform
@@ -45,6 +46,12 @@ namespace Game
 					{
 						Linear = playerForward * playerWeapon.ValueRW.ProjectileSpeed,
 						Angular = float3.zero,
+					});
+
+					const float destroyDelay = 5f;
+					ecb.SetComponent(projectileEntity, new Projectile
+					{
+						DestroyTime = currentTime + destroyDelay,
 					});
 				}
 			}
