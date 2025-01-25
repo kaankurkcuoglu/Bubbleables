@@ -149,7 +149,7 @@ MonoBehaviour:
   _spring: 1000
   _damper: 0.1
   _colliderShape: 0
-  _colliderSize: 0.002
+  _colliderSize: 0.0025
   _rigidbodyMass: 1
 --- !u!4 &7190677039197202656 stripped
 Transform:
