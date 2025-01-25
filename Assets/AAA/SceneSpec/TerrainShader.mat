@@ -54,7 +54,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AOIntensity: 0
-    - _LightPower: 0.15
+    - _LightPower: 0.07
     - _NoiseScale: 0.76
     - _ShadowIntensity: 0.115
     - _SpecularIntensity: 1
