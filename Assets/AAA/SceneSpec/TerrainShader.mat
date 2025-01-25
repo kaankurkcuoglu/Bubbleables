@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TerrainShader
+  m_Shader: {fileID: 4800000, guid: 194daf5822bc24ea28d4fabe9272816c, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseTex:
+        m_Texture: {fileID: 2800000, guid: fd9009e2338c44af8b17d772cf76e709, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 58aaf6277ec354f69bb64b14543e1894, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 3385e698fbe774b248ba59dc55d64a01, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 2eece62f2be9b478591878acd5d0ec42, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SplatMap:
+        m_Texture: {fileID: 2800000, guid: d6d603d5ea02d47b29af6eabf87a81c5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SplatTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AOIntensity: 0
+    - _LightPower: 0.15
+    - _NoiseScale: 0.76
+    - _ShadowIntensity: 0.115
+    - _SpecularIntensity: 1
+    - _SplatScale: 26.55
+    - _TexScale: 7.49
+    - _Threshold: 0.047
+    m_Colors:
+    - _Color: {r: 0.3382353, g: 1, b: 0.29411763, a: 1}
+    - _Color1: {r: 1, g: 0.5068789, b: 0.08962262, a: 1}
+    - _Color2: {r: 0.4031684, g: 0.5660378, b: 0.5636943, a: 1}
+    - _Color3: {r: 1, g: 1, b: 1, a: 1}
+    - _Color4: {r: 0.29928276, g: 0.7830189, b: 0.1735938, a: 1}
+    - _CustomLightDir: {r: 3.7, g: 60.4, b: 25.7, a: 0}
+    - _LightDir: {r: 3.5, g: -7.6, b: -5.33, a: 0}
+    - _SplatColor1: {r: 0.9716981, g: 0.7709895, b: 0.022917405, a: 1}
+    - _SplatColor2: {r: 0, g: 1, b: 0, a: 1}
+    - _SplatColor3: {r: 0.058072276, g: 0.058072276, b: 0.2735849, a: 1}
+    - _SplatColor4: {r: 1, g: 1, b: 0, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

@@ -1,0 +1,163 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ToonyWater
+  m_Shader: {fileID: 4800000, guid: 3cd67971dbd634a3c9c2886fdb4b6c67, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _CausticsTex:
+        m_Texture: {fileID: 2800000, guid: b12c7a5b635fc43deb74f5c0b105e7e8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DepthRampTex:
+        m_Texture: {fileID: 2800000, guid: 9ab1f7b4f5977447eb60923b4b6a804d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DepthTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DuDvMap1:
+        m_Texture: {fileID: 2800000, guid: 2eece62f2be9b478591878acd5d0ec42, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DuDvMap2:
+        m_Texture: {fileID: 2800000, guid: 2eece62f2be9b478591878acd5d0ec42, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 58aaf6277ec354f69bb64b14543e1894, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: e877701579ee345faba229d2c550d592, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: bf9e9fb3041904c82b97c925b1a4a21d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap1:
+        m_Texture: {fileID: 2800000, guid: 2eece62f2be9b478591878acd5d0ec42, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap2:
+        m_Texture: {fileID: 2800000, guid: 2eece62f2be9b478591878acd5d0ec42, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Amplitude1: 0.01
+    - _Amplitude2: -0.9
+    - _CausticsIntensity: 13.12
+    - _CausticsSpeed: 0.1
+    - _DepthCoefficient: 1
+    - _DepthDensity: 0.5
+    - _DepthFactor: 2.26
+    - _DepthIntensity: 1
+    - _DissolveEdgeWidth: 0.264
+    - _DissolveEdgeWidth1: 0.1
+    - _DissolveEdgeWidth2: 0.1
+    - _DissolveEdgeWidth3: 0.1
+    - _DissolveThreshold: 0.059
+    - _DissolveThreshold1: 0.5
+    - _DissolveThreshold2: 0.5
+    - _DissolveThreshold3: 0.5
+    - _DistanceDensity: 0.1
+    - _DistortStrength: 0.43
+    - _DistortionFactor: 0.15
+    - _EdgeFoamDepth: 10
+    - _ExtraHeight: 2.48
+    - _FancyShadows: 0
+    - _FoamContribution: 1
+    - _FoamNoiseScale: 0.5
+    - _FoamScale: 1
+    - _FoamSpeed: 1
+    - _MaxShadowDistance: 50
+    - _Metallic: 0
+    - _MinimalWaveAmplitude: 0.05
+    - _ReflectionContribution: 1
+    - _ReflectionStrength: 0.359
+    - _ReflectionStrength1: 0.5
+    - _ReflectionStrength2: 0.3
+    - _ReflectionStrength3: 0.2
+    - _SSPower: 2
+    - _SSScale: 0.5
+    - _Smoothness: 0.8
+    - _Speed1: 0
+    - _Speed2: 1
+    - _Steepnes1: 0.5
+    - _Steepnes2: 1
+    - _SunSpecularExponent: 1000
+    - _SunThreshold: 1
+    - _VibrationFrequency: 0.12
+    - _VibrationFrequency1: 10
+    - _VibrationFrequency2: 8
+    - _VibrationFrequency3: 6
+    - _VibrationStrength: 0.09
+    - _VibrationStrength1: 0.05
+    - _VibrationStrength2: 0.03
+    - _VibrationStrength3: 0.02
+    - _WaterFog: 0.5
+    - _Wave1Amplitude: 1
+    - _Wave1Direction: 0
+    - _Wave1Speed: 1
+    - _Wave1Wavelength: 1
+    - _Wave2Amplitude: 1
+    - _Wave2Direction: 0
+    - _Wave2Speed: 1
+    - _Wave2Wavelength: 1
+    - _WaveAmp: 4.37
+    - _WaveNormalScale: 10
+    - _WaveNormalSpeed: 1
+    - _WaveScale: 5
+    - _WaveScale1: 0.1
+    - _WaveScale2: 0.2
+    - _WaveScale3: 0.3
+    - _WaveSpeed: -8.3
+    - _Wavelength1: 0.01
+    - _Wavelength2: 81
+    m_Colors:
+    - _BaseColor: {r: 0, g: 0.50196075, b: 1, a: 1}
+    - _Color: {r: 0.745283, g: 0.14413491, b: 0.14413491, a: 1}
+    - _Color1: {r: 1, g: 1, b: 1, a: 1}
+    - _Color2: {r: 1, g: 1, b: 1, a: 1}
+    - _Color3: {r: 1, g: 1, b: 1, a: 1}
+    - _CustomLightDir: {r: 0, g: 1, b: 0, a: 0}
+    - _DeepColor: {r: 0, g: 0.05, b: 0.19, a: 1}
+    - _Direction1: {r: 1, g: 0, b: 0, a: 0}
+    - _Direction2: {r: 1, g: 0, b: 0, a: 0}
+    - _EdgeColor: {r: 0.5754717, g: 0.08957815, b: 0.08957815, a: 1}
+    - _EdgeFoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FarColor: {r: 0.04, g: 0.27, b: 0.75, a: 1}
+    - _NormalMapScrollSpeed: {r: 1, g: 1, b: 1, a: 1}
+    - _ReflectionDirection: {r: 6.06, g: 10.48, b: -0.5, a: 0}
+    - _SSSColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ShadowColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _ShallowColor: {r: 0.44, g: 0.95, b: 0.36, a: 1}
+    - _SunSpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _WaveColor: {r: 1, g: 1, b: 1, a: 1}
+    - _WaveDirection: {r: 1, g: 0.05, b: 0, a: 0}
+    - _WaveDirection1: {r: 1, g: 0, b: 0, a: 0}
+    - _WaveDirection2: {r: 0, g: 1, b: 0, a: 0}
+    - _WaveDirection3: {r: 0, g: 0, b: 1, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
