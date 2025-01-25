@@ -72,10 +72,7 @@ partial struct NetcodePlayerMovementSystem : ISystem
             else
             {
                 velocity.ValueRW.Linear = float3.zero;
-                
             }
-            
-
         }
     }
 

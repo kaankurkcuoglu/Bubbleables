@@ -42,6 +42,13 @@ namespace AAA.Bootstrap
                 
                 var movementDelta = math.length(velocity.ValueRO.Linear);
                 followers.Item2.SetSpeed(movementDelta);
+                
+                var lookdirection = velocity.ValueRO.Linear;
+                if (math.length(lookdirection) > 0)
+                {
+                    followers.Item1.transform.rotation = quaternion.LookRotation(lookdirection, math.up());
+                    followers.Item2.transform.rotation = quaternion.LookRotation(lookdirection, math.up());
+                }
             }
         }
     }
