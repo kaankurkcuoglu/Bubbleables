@@ -12,7 +12,7 @@ namespace Game
 		{
 			var input = new PlayerInput();
 
-			foreach (var netcodePlayerInput in SystemAPI.Query<RefRW<PlayerInput>>().WithAll<GhostOwnerIsLocal>())
+			foreach (var playerInput in SystemAPI.Query<RefRW<PlayerInput>>().WithAll<GhostOwnerIsLocal>())
 			{
 				float2 inputVector = new float2();
 
@@ -59,15 +59,15 @@ namespace Game
 					input.FirePos = ((float3)hitPos).xz;
 				}
 
-				netcodePlayerInput.ValueRW = input;
+				playerInput.ValueRW = input;
 
 				if (Input.GetKeyDown(KeyCode.Space))
 				{
-					netcodePlayerInput.ValueRW.JumpInputEvet.Set();
+					playerInput.ValueRW.JumpInputEvet.Set();
 				}
 				else
 				{
-					netcodePlayerInput.ValueRW.JumpInputEvet = default;
+					playerInput.ValueRW.JumpInputEvet = default;
 				}
 			}
 		}
