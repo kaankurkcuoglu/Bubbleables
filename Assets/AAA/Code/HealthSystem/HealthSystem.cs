@@ -25,8 +25,9 @@ namespace Game
 					health.ValueRW.Value -= damageBuffer[i].Damage;
 				}
 
-				if (health.ValueRW.Value <= 0f)
+				if (health.ValueRO.Value <= 0f)
 				{
+					health.ValueRW.Value = 0;
 					ecb.SetComponentEnabled<Alive>(entity, false);
 				}
 

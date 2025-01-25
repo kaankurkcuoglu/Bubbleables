@@ -26,7 +26,7 @@ namespace AAA.Bootstrap
             try
             {
                 bubblePrefab = Object.FindFirstObjectByType<BubbleReference>().BubblePrefab;
-                healthBar = bubblePrefab.transform.Find("ProgressBarFill").GetComponent<Image>(); }
+                healthBar = bubblePrefab.transform.Find("Canvas/ProgressBar/ProgressBarFill").GetComponent<Image>(); }
             catch (Exception)
             {
                 return;
