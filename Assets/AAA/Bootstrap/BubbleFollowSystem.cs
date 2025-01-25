@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Game;
 using Unity.Entities;
 using Unity.NetCode;
 using Unity.Transforms;
@@ -9,10 +10,9 @@ namespace AAA.Bootstrap
     [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation)]
     public partial class BubbleFollowSystem : SystemBase
     {
-        
         GameObject bubblePrefab;
-
-        public Dictionary<int, BoneSphere> bubbles = new Dictionary<int, BoneSphere>();
+        public Dictionary<int, (BoneSphere, GameObject)> bubbles = new Dictionary<int, (BoneSphere, GameObject)>();
+        
         
         protected override void OnCreate()
         {
@@ -24,13 +24,18 @@ namespace AAA.Bootstrap
         {
             foreach (var (netcodePlayer, transform, ghostOwner) in SystemAPI.Query<RefRO<PlayerTag>, RefRO<LocalTransform>, RefRO<GhostOwner>>())
             {
-                if (!bubbles.TryGetValue(ghostOwner.ValueRO.NetworkId, out var bubble))
+                if (!bubbles.TryGetValue(ghostOwner.ValueRO.NetworkId, out var followers))
                 {
-                    bubble = Object.Instantiate(bubblePrefab).GetComponent<BoneSphere>();
-                    bubbles.Add(ghostOwner.ValueRO.NetworkId, bubble);
+                    var bubble = Object.Instantiate(bubblePrefab);
+                    var playerModels = Resources.Load<GameConfig>("GameConfig").PlayerModels;
+                    var playerModel = Object.Instantiate(playerModels[Random.Range(0, playerModels.Count)]);
+                    followers = (bubble.GetComponent<BoneSphere>(), playerModel);
+                    bubbles.Add(ghostOwner.ValueRO.NetworkId, followers);
                 }
                 
-                bubble.transform.position = transform.ValueRO.Position;
+                
+                followers.Item1.transform.position = transform.ValueRO.Position;
+                followers.Item2.transform.position = transform.ValueRO.Position;
                 // bubble.SetRootPosition(transform.ValueRO.Position);
             }
         }

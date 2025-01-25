@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game
@@ -11,6 +12,7 @@ namespace Game
 		public float EnemySpeed = 5f; 
 		public int FireRate = 600;
 		public GameObject EnemyPrefab;
+		public List<GameObject> PlayerModels;
 		public GameObject ProjectilePrefab;
 		public float ProjectileSpeed;
 		public float ProjectileScale;

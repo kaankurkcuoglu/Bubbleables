@@ -21,3 +21,8 @@ MonoBehaviour:
   ProjectilePrefab: {fileID: 4464983849442439012, guid: f6b88a387c9284c51bcd90824ec6ecae, type: 3}
   ProjectileSpeed: 50
   ProjectileScale: 1
+  PlayerModels:
+  - {fileID: 6110905011732126284, guid: 2fed8df62f1da674aac4c21c2560ec72, type: 3}
+  - {fileID: 7067406884514450055, guid: 93daaf2c61d725646a806a93d0b9c272, type: 3}
+  - {fileID: 1445498268162277606, guid: 6bbe6e5e2314cdf4b89a611eac874702, type: 3}
+  - {fileID: 5294708864438724841, guid: 270831c65d4160e469320ecd2f316843, type: 3}
