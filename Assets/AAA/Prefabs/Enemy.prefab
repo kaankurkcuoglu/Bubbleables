@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7070334678507841555}
   - component: {fileID: 9021201952404955382}
   - component: {fileID: 3863397479585137871}
+  - component: {fileID: 5741129738722199561}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -165,7 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultGhostMode: 0
-  SupportedGhostModes: 3
+  SupportedGhostModes: 1
   OptimizationMode: 0
   Importance: 1
   prefabId: 
