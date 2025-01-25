@@ -1,6 +1,5 @@
+using Game;
 using Unity.Entities;
-using Unity.Mathematics;
-using Unity.NetCode;
 using UnityEngine;
 
 class PlayerAuthoring : MonoBehaviour
@@ -9,22 +8,19 @@ class PlayerAuthoring : MonoBehaviour
     {
         public override void Bake(PlayerAuthoring authoring)
         {
-            Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-            AddComponent(entity, new NetcodePlayerInput());
-            AddComponent(entity, new NetcodePlayer());
+            var playerEntity = GetEntity(TransformUsageFlags.Dynamic);
+            AddComponent(playerEntity, new NetcodePlayerInput());
+            AddComponent(playerEntity, new PlayerTag());
+            
+            var gameConfig = Resources.Load<GameConfig>("GameConfig");
+                
+            // Health setup
+            {
+                AddComponent(playerEntity, new Alive());
+                AddComponent(playerEntity, new Health { Value = gameConfig.InitialPlayerHealth });
+                AddBuffer<DamageBuffer>(playerEntity);
+            }
         }
     }
 
 }
-
-public struct NetcodePlayerInput : IInputComponentData
-{
-    public float2 MovementInputVector;
-    public InputEvent ShootInputEvent;
-    public InputEvent RunInputEvent;
-}
-
-public struct NetcodePlayer : IComponentData
-{
-}
-
