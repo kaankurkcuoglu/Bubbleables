@@ -6,7 +6,6 @@ namespace Game
 	public struct PlayerWeapon : IComponentData
 	{
 		public int FireRate;
-		public int ShootCommands;
 		public float ProjectileSpeed;
 		public float ProjectileScale;
 		

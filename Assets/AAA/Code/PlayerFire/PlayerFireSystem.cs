@@ -23,20 +23,18 @@ namespace Game
 			var ecb = new EntityCommandBuffer(Allocator.Temp);
 			var currentTime = (float)SystemAPI.Time.ElapsedTime;
 			
-			foreach (var (playerWeapon, playerTransform, ghostOwner) in SystemAPI.Query<RefRW<PlayerWeapon>, RefRO<LocalTransform>, RefRO<GhostOwner>>())
+			foreach (var (playerWeapon, playerTransform, ghostOwner, shootCommands) in SystemAPI.Query<RefRW<PlayerWeapon>, RefRO<LocalTransform>, RefRO<GhostOwner>, DynamicBuffer<ShootCommandBuffer>>())
 			{
-				while (playerWeapon.ValueRW.ShootCommands > 0)
+				for (int i = 0; i < shootCommands.Length; i++)
 				{
-					playerWeapon.ValueRW.ShootCommands--;
+					var projectileDir = shootCommands[i].Value;
 					var projectileEntity = ecb.Instantiate(playerWeapon.ValueRW.ProjectilePrefab);
-					var playerForward = playerTransform.ValueRO.Forward();
 					var playerPosition = playerTransform.ValueRO.Position;
 					const float forwardDist = 0.1f;
-					var spawnPos = playerPosition + playerForward * forwardDist;
 
 					ecb.SetComponent(projectileEntity, new LocalTransform
 					{
-						Position = spawnPos,
+						Position = playerPosition + projectileDir.x0y() * forwardDist,
 						Rotation = quaternion.identity,
 						Scale = playerWeapon.ValueRW.ProjectileScale,
 					});
@@ -44,7 +42,7 @@ namespace Game
 					ecb.SetComponent(projectileEntity, ghostOwner.ValueRO);
 					ecb.SetComponent(projectileEntity, new PhysicsVelocity
 					{
-						Linear = playerForward * playerWeapon.ValueRW.ProjectileSpeed,
+						Linear = projectileDir.x0y() * playerWeapon.ValueRW.ProjectileSpeed,
 						Angular = float3.zero,
 					});
 
@@ -54,6 +52,8 @@ namespace Game
 						DestroyTime = currentTime + destroyDelay,
 					});
 				}
+
+				shootCommands.Clear();
 			}
 			
 			ecb.Playback(state.EntityManager);

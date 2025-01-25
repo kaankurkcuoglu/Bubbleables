@@ -1,6 +1,7 @@
 using System;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.NetCode;
 using Random = Unity.Mathematics.Random;
 
@@ -8,6 +9,11 @@ namespace Game
 {
 	public static class ECSHelper
 	{
+		public static float3 x0y(this float2 f2)
+		{
+			return new float3(f2.x, 0f, f2.y);
+		}
+		
 		public static Entity GetRandomPlayer(ref Random random, ref SystemState state)
 		{
 			var query = new EntityQueryBuilder(Allocator.Temp)

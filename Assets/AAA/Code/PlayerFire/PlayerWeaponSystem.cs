@@ -3,6 +3,7 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
+using Unity.Transforms;
 
 namespace Game
 {
@@ -18,8 +19,10 @@ namespace Game
 		public void OnUpdate(ref SystemState state)
 		{
 			var currentTime = (float)SystemAPI.Time.ElapsedTime;
-			
-			foreach (var (playerInput, playerWeapon) in SystemAPI.Query<RefRO<PlayerInput>, RefRW<PlayerWeapon>>()
+
+			foreach (var (playerInput, playerWeapon, playerTransform, shootBuffer) in SystemAPI
+				         .Query<RefRO<PlayerInput>, RefRW<PlayerWeapon>, RefRO<LocalTransform>,
+					         DynamicBuffer<ShootCommandBuffer>>()
 				         .WithAll<Simulate>())
 			{
 				switch (playerWeapon.ValueRW.State)
@@ -31,7 +34,7 @@ namespace Game
 							playerWeapon.ValueRW.State = FireState.Running;
 							playerWeapon.ValueRW.LastFireTime = currentTime;
 						}
-						
+
 						break;
 					}
 					case FireState.Running:
@@ -43,13 +46,18 @@ namespace Game
 							var firePerSecond = playerWeapon.ValueRW.FireRate / 60f;
 							var timesFired = (int)math.floor(timeSinceLastFire * firePerSecond);
 							playerWeapon.ValueRW.LastFireTime += timesFired / firePerSecond;
-							playerWeapon.ValueRW.ShootCommands += timesFired;
+
+							for (int i = 0; i < timesFired; i++)
+							{
+								var fireDir = math.normalizesafe(playerInput.ValueRO.FirePos - playerTransform.ValueRO.Position.xz);
+								shootBuffer.Add(new ShootCommandBuffer { Value = fireDir });
+							}
 						}
 						else
 						{
 							playerWeapon.ValueRW.State = FireState.NotRunning;
 						}
-						
+
 						break;
 					}
 					default:

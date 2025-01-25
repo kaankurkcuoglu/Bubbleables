@@ -27,12 +27,13 @@ class PlayerAuthoring : MonoBehaviour
 				{
 					FireRate = gameConfig.FireRate,
 					LastFireTime = 0f,
-					ShootCommands = 0,
 					State = FireState.NotRunning,
 					ProjectilePrefab = GetEntity(gameConfig.ProjectilePrefab, TransformUsageFlags.Dynamic),
 					ProjectileSpeed = gameConfig.ProjectileSpeed,
 					ProjectileScale = gameConfig.ProjectileScale
 				});
+
+				AddBuffer<ShootCommandBuffer>(playerEntity);
 			}
 		}
 	}
