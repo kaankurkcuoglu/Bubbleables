@@ -15,7 +15,7 @@ namespace Game
 				var entity = GetEntity(authoring, TransformUsageFlags.Dynamic);
 				AddComponent(entity, new EnemySpawner
 				{
-					Enemy = GetEntity(config.EnemyPrefab),
+					Enemy = GetEntity(config.EnemyPrefab, TransformUsageFlags.Dynamic),
 					EnemyCount = config.EnemyCount,
 					Random = new Random((uint)Stopwatch.GetTimestamp()),
 				});
