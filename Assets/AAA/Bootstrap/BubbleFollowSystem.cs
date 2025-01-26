@@ -50,6 +50,10 @@ namespace AAA.Bootstrap
                 //healthBar.fillAmount = health.ValueRO.Value / 100f;
                 followers.Item1.transform.position = transform.ValueRO.Position;
                 followers.Item2.transform.position = transform.ValueRO.Position;
+
+                var velocityRO = velocity.ValueRO.Linear;
+                var rotationSpeed = 0.25f;
+                followers.Item1.transform.Rotate(velocityRO.z * rotationSpeed, 0, velocityRO.x * -1f * rotationSpeed, Space.World);
                 
                 var movementDelta = math.length(velocity.ValueRO.Linear);
                 followers.Item2.SetSpeed(movementDelta);
@@ -57,7 +61,6 @@ namespace AAA.Bootstrap
                 var lookdirection = velocity.ValueRO.Linear;
                 if (math.length(lookdirection) > 0)
                 {
-                    followers.Item1.transform.rotation = quaternion.LookRotation(lookdirection, math.up());
                     followers.Item2.transform.rotation = quaternion.LookRotation(lookdirection, math.up());
                 }
             }
