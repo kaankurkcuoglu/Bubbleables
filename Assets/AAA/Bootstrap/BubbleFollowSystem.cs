@@ -59,6 +59,7 @@ namespace AAA.Bootstrap
                 followers.Item2.SetSpeed(movementDelta);
                 
                 var lookdirection = velocity.ValueRO.Linear;
+                lookdirection.y = 0;
                 if (math.length(lookdirection) > 0)
                 {
                     followers.Item2.transform.rotation = quaternion.LookRotation(lookdirection, math.up());
