@@ -20,6 +20,7 @@ namespace Game
 		[BurstCompile]
 		public void OnUpdate(ref SystemState state)
 		{
+			return;
 			var currentTime = (float)SystemAPI.Time.ElapsedTime;
 			var ecb = new EntityCommandBuffer(Allocator.Temp);
 
