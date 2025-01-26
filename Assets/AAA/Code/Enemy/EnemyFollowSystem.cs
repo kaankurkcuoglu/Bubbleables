@@ -21,8 +21,7 @@ namespace Game
         public void OnUpdate(ref SystemState state)
         {
             var localTransformLookup = state.GetComponentLookup<LocalTransform>(true);
-            var healthBufferLookup = state.GetBufferLookup<DamageBuffer>(false);
-            
+
             foreach (var (enemyData, physicsVelocity, localTransform) in 
                      SystemAPI.Query<RefRW<EnemyData>, RefRW<PhysicsVelocity>, RefRW<LocalTransform>>())
             {
@@ -40,14 +39,6 @@ namespace Game
                         physicsVelocity.ValueRW.Linear = direction * enemyData.ValueRO.Speed;
                         localTransform.ValueRW.Rotation = quaternion.LookRotation(direction, math.up());
                         
-                        // Check if the enemy is close enough to the target
-                        if (math.distance(targetPosition, enemyPosition) < enemyData.ValueRO.AttackRange)
-                        {
-                            healthBufferLookup[enemyData.ValueRW.TargetEntity].Add(new DamageBuffer
-                            {
-                                Damage = enemyData.ValueRO.AttackDamage
-                            });
-                        }
                     }
                 }
                 
