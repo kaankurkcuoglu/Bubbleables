@@ -6,6 +6,7 @@ using Unity.Entities;
 using Unity.NetCode;
 using Unity.Networking.Transport;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace AAA.Lobby
@@ -14,6 +15,7 @@ namespace AAA.Lobby
     {
         [SerializeField] private Button _hostButton;
         [SerializeField] private Button _joinButton;
+        [SerializeField] private Button _startButton;
         [SerializeField] private TMP_InputField _ipAddressInput;
 
         [SerializeField] private RectTransform _playerList;
@@ -22,10 +24,24 @@ namespace AAA.Lobby
         {
             _hostButton.onClick.AddListener(OnHostClicked);
             _joinButton.onClick.AddListener(OnJoinClicked);
+            _startButton.onClick.AddListener(OnStartClicked);
+        }
+
+        private void OnStartClicked()
+        {
+            SceneManager.LoadScene("Bubble Bum");
+            if (ClientServerBootstrap.ServerWorld != null)
+            {
+                var world = ClientServerBootstrap.ServerWorld;
+                world.EntityManager.CreateEntity(typeof(GameStartedTag));
+            }
         }
 
         private void Update()
         {
+            _hostButton.gameObject.SetActive(ClientServerBootstrap.ClientWorld == null || ClientServerBootstrap.ServerWorld == null);
+            _joinButton.gameObject.SetActive(ClientServerBootstrap.ClientWorld == null);
+            _startButton.gameObject.SetActive(ClientServerBootstrap.ServerWorld != null);
             if (ClientServerBootstrap.ClientWorld != null)
             {
                 var entityManager = ECSHelper.GetClientWorld().EntityManager;

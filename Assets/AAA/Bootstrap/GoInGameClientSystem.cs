@@ -22,9 +22,9 @@ partial struct GoInGameClientSystem : ISystem
             entityCommandBuffer.AddComponent<NetworkStreamInGame>(entity);
             Debug.Log("Setting Client as InGame");
             
-            Entity rpcEntity = entityCommandBuffer.CreateEntity();
-            entityCommandBuffer.AddComponent(rpcEntity, new GoInGameRequestRpc());
-            entityCommandBuffer.AddComponent(rpcEntity, new SendRpcCommandRequest());
+            // Entity rpcEntity = entityCommandBuffer.CreateEntity();
+            // entityCommandBuffer.AddComponent(rpcEntity, new GoInGameRequestRpc());
+            // entityCommandBuffer.AddComponent(rpcEntity, new SendRpcCommandRequest());
         }
         
         entityCommandBuffer.Playback(state.EntityManager);

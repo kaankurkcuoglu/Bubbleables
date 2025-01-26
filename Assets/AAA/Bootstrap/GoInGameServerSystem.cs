@@ -20,6 +20,7 @@ partial struct GoInGameServerSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+        return;
         EntityCommandBuffer entityCommandBuffer = new EntityCommandBuffer(Allocator.Temp);
 
         EntitiesReferences entitiesReferences = SystemAPI.GetSingleton<EntitiesReferences>();

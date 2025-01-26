@@ -8,6 +8,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/OutdoorsScene.unity
     guid: 8124e5870f4fd4c779e7a5f994e84ad1
+  - enabled: 1
+    path: Assets/AAA/Lobby/Lobby.unity
+    guid: c88e69888bae34b81b0a8edd628a5b25
+  - enabled: 1
+    path: Assets/Scenes/Bubble Bum.unity
+    guid: c5967e04243f1f546be154fc4811cd07
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 35845fe01580c41289b024647b1d1c53, type: 3}
   m_UseUCBPForAssetBundles: 0
