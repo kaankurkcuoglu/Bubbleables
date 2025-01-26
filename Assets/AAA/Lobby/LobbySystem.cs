@@ -1,3 +1,4 @@
+using System.Linq;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -33,7 +34,7 @@ namespace AAA.Lobby
                     var connectedClient = new ConnectedClient()
                     {
                         ConnectionId = networkId.ValueRO.Value,
-                        IpAddress = driver.ValueRO.GetRemoteEndPoint(connection.ValueRO).ToString()
+                        IpAddress = driver.ValueRO.GetRemoteEndPoint(connection.ValueRO).Address
                     };
 
                     buffer.AddComponent(entity, connectedClient);
@@ -45,11 +46,75 @@ namespace AAA.Lobby
                     {
                         Debug.Log(
                             $"Client connected to the server {connectedClient.ConnectionId} {connectedClient.IpAddress}");
+                        
+                        var mainRpcEntity = buffer.CreateEntity();
+                        buffer.AddComponent(mainRpcEntity, new ClientConnectedRpc()
+                        {
+                            ConnectedClient = connectedClient
+                        });
+                        buffer.AddComponent(mainRpcEntity, new SendRpcCommandRequest());
+                        
+                        using var query = state.EntityManager.CreateEntityQuery(ComponentType.ReadOnly<ConnectedClient>());
+                        var connectedClients = query.ToEntityArray(Allocator.Temp);
+                        
+                        foreach (var client in connectedClients)
+                        {
+                            var connected = state.EntityManager.GetComponentData<ConnectedClient>(client);
+                            
+                            if (connected.ConnectionId == connectedClient.ConnectionId)
+                            {
+                                continue;
+                            }
+                            
+                            var rpcEntity = buffer.CreateEntity();
+                            buffer.AddComponent(rpcEntity, new ClientConnectedRpc()
+                            {
+                                ConnectedClient = connected
+                            });
+                            buffer.AddComponent(rpcEntity, new SendRpcCommandRequest());
+                        }
                     }
                 }
             }
             
             buffer.Playback(state.EntityManager);
+
+            var clientBuffer = new EntityCommandBuffer(Allocator.Temp);
+            if (!state.World.IsServer())
+            {
+                foreach (var (receiveRpcCommandRequest, entity) in SystemAPI
+                             .Query<RefRO<ReceiveRpcCommandRequest>>()
+                             .WithAll<ClientConnectedRpc>()
+                             .WithEntityAccess())
+                {
+                    using var query = state.EntityManager.CreateEntityQuery(ComponentType.ReadOnly<ConnectedClient>());
+                    var connectedClients = query.ToEntityArray(Allocator.Temp);
+                    
+                    var connectedClient = SystemAPI.GetComponentRO<ClientConnectedRpc>(entity).ValueRO.ConnectedClient;
+                    
+                    var found = false;
+                    foreach (var client in connectedClients)
+                    {
+                       var connected = state.EntityManager.GetComponentData<ConnectedClient>(client);
+                       
+                          if (connected.ConnectionId == connectedClient.ConnectionId)
+                          {
+                            found = true;
+                            break;
+                          }
+                    }
+
+                    if (!found)
+                    {
+                        var newConnectedClient = clientBuffer.CreateEntity();
+                        
+                        clientBuffer.AddComponent(newConnectedClient, connectedClient);
+                    }
+                    
+                    clientBuffer.DestroyEntity(entity);
+                }
+            }
+            clientBuffer.Playback(state.EntityManager);
         }
     }
 
@@ -57,5 +122,10 @@ namespace AAA.Lobby
     {
         public int ConnectionId;
         public FixedString32Bytes IpAddress;
+    }
+    
+    public struct ClientConnectedRpc : IRpcCommand
+    {
+        public ConnectedClient ConnectedClient;
     }
 }
