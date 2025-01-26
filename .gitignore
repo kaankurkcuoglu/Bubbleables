@@ -75,3 +75,4 @@ crashlytics-build.properties
 .vscode
 Assets/SceneDependencyCache/*
 Assets/SceneDependencyCache.meta
+.DS_Store
