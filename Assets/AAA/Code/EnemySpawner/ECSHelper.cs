@@ -21,6 +21,10 @@ namespace Game
 				.WithAll<GhostOwner>()
 				.Build(ref state);
 			var entities = query.ToEntityArray(Allocator.Temp);
+			if (entities.Length == 0)
+			{
+				return Entity.Null;
+			}
 			var entityIdx = random.NextInt(0, entities.Length);
 			return entities[entityIdx];
 		}
